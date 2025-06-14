@@ -29,14 +29,14 @@ nav a.active {
     flex-basis: 20%;
 }
 
-.task-row.red{
+.task-row.red {
     background-color: red;
 }
 
-.task-row.yellow{
+.task-row.yellow {
     background-color: yellow;
 }
 
-.task-row.green{
+.task-row.green {
     background-color: green;
 }

@@ -8,26 +8,16 @@ import TaskList from "./pages/TaskList"
 //context
 import GlobalContext from "./contexts/GlobalContext"
 
+//hooks
+import useTasks from "./hooks/useTasks"
 
 function App() {
-	const apiUrl = import.meta.env.VITE_APP_URL_API;
 
-	const [tasks, setTasks] = useState([])
-
-	async function fetchData() {
-		const res = await fetch(`${apiUrl}/tasks`)
-		const data = await res.json()
-		setTasks(data)
-	}
-
-	useEffect(() => { fetchData() }, [])
-	// console.log(tasks);
-
-
+	const { tasks, addTask, removeTask, updateTask } = useTasks()
 
 	return (
 		<>
-			<GlobalContext.Provider value={[tasks, setTasks]}>
+			<GlobalContext.Provider value={[tasks]}>
 				<BrowserRouter>
 					<Routes>
 						<Route path="/" element={<TaskList />} />
