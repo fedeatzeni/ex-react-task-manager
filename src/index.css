@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 
+/* nav */
 nav {
     padding: 20px 10px;
     background-color: lightskyblue;
@@ -20,6 +21,7 @@ nav a.active {
     text-decoration: underline blue;
 }
 
+/* task list  */
 .task-row {
     display: flex;
     gap: 20px;
@@ -39,4 +41,22 @@ nav a.active {
 
 .task-row.green {
     background-color: green;
+}
+
+/* add task  */
+form {
+    margin-top: 20px;
+    padding: 0px 20px;
+}
+
+input,
+textarea,
+select {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.error {
+    color: red;
+    margin-left: 20px;
 }
