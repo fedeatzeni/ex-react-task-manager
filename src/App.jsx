@@ -12,21 +12,22 @@ import GlobalContext from "./contexts/GlobalContext"
 function App() {
 	const apiUrl = import.meta.env.VITE_APP_URL_API;
 
-	const [task, setTask] = useState([])
+	const [tasks, setTasks] = useState([])
 
 	async function fetchData() {
 		const res = await fetch(`${apiUrl}/tasks`)
 		const data = await res.json()
-		setTask(data)
+		setTasks(data)
 	}
 
-	useEffect(() => { fetchData }, [])
+	useEffect(() => { fetchData() }, [])
+	// console.log(tasks);
 
-	console.log(task);
+
 
 	return (
 		<>
-			<GlobalContext.Provider value={[task, setTask]}>
+			<GlobalContext.Provider value={[tasks, setTasks]}>
 				<BrowserRouter>
 					<Routes>
 						<Route path="/" element={<TaskList />} />

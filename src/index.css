@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -16,6 +16,27 @@ nav a {
     font-weight: 700;
 }
 
-nav a.active{
+nav a.active {
     text-decoration: underline blue;
+}
+
+.task-row {
+    display: flex;
+    gap: 20px;
+}
+
+.task-row .name {
+    flex-basis: 20%;
+}
+
+.task-row.red{
+    background-color: red;
+}
+
+.task-row.yellow{
+    background-color: yellow;
+}
+
+.task-row.green{
+    background-color: green;
 }
