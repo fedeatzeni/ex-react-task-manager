@@ -17,7 +17,26 @@ export default function useTasks() {
 
 
     //functions
-    function addTask() { }
+    async function addTask(obj) {
+        try {
+            const response = await fetch(`${apiUrl}/tasks`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(obj)
+            });
+
+            const data = await response.json();
+
+            if (data.success === false) return console.error(data.message);
+
+            return data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
     function removeTask() { }
     function updateTask() { }
 

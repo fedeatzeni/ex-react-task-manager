@@ -1,7 +1,10 @@
-import { use, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import NavBar from "../components/NavBar";
+import useTasks from "../hooks/useTasks";
 
 export default function AddTask() {
+
+    const { addTask } = useTasks()
 
     // inputs value
     const [title, setTitle] = useState("")
@@ -28,8 +31,23 @@ export default function AddTask() {
             const description = descriptionRef.current.value
             const status = statusRef.current.value
 
-            console.log(title, description, status);
+            const obj = {
+                "title": title,
+                "description": description,
+                "status": status
+            };
+
+            console.log(obj);
+            addTask(obj)
+            alert("Task aggiunta con successo")
+
+            // reset form
+            setTitle("");
+            descriptionRef.current.value = "";
+            statusRef.current.value = "To do";
         }
+
+        else alert("C'è stato un errore")
     }
 
     return (
