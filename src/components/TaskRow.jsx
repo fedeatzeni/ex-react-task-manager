@@ -1,13 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Card = React.memo(({ task, color }) => {
     // console.log("Render");
     return (
-        <div className={`task-row ${color}`} >
+        <Link to={`/task/${task.id}`} className={`task-row ${color}`} >
             <div className="name">{task.title}</div>
             <div>{task.status}</div>
             <div>{task.createdAt}</div>
-        </div>
+        </Link>
     )
 });
 
