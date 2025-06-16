@@ -14,7 +14,7 @@ import useTasks from "./hooks/useTasks"
 
 function App() {
 
-	const { tasks, addTask, removeTask, updateTask } = useTasks()
+	const { tasks } = useTasks()
 
 	return (
 		<>

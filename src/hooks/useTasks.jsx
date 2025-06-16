@@ -29,7 +29,9 @@ export default function useTasks() {
 
             const data = await response.json();
 
-            if (data.success === false) return console.error(data.message);
+            if (!data.success) {
+                throw new Error(data.message);
+            }
 
             return data;
         } catch (error) {
@@ -37,7 +39,24 @@ export default function useTasks() {
             throw error;
         }
     }
-    function removeTask() { }
+    async function removeTask(id) {
+        try {
+            const response = await fetch(`${apiUrl}/tasks/${id}`, {
+                method: "DELETE",
+            });
+
+            const data = await response.json();
+
+            if (!data.success) {
+                throw new Error(data.message);
+            }
+
+            return data;
+        } catch (error) {
+            console.error("Errore in removeTask:", error);
+            throw error;
+        }
+    }
     function updateTask() { }
 
     return { tasks, setTasks, addTask, removeTask, updateTask }
