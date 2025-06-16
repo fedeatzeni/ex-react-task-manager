@@ -2,9 +2,14 @@ import { Link } from "react-router-dom";
 import { useParams, useNavigate } from "react-router-dom";
 
 import useTasks from "../hooks/useTasks";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+
+import Modal from "../components/Modal";
 
 export default function TaskDetail() {
+
+    //modal
+    const [show, setShow] = useState(false)
 
     const { tasks, setTasks, removeTask } = useTasks()
 
@@ -37,14 +42,26 @@ export default function TaskDetail() {
             <Link to={"/"}>Home</Link>
 
             {task &&
-                <div >
-                    <h2>{task.title}</h2>
-                    <p>{task.description}</p>
-                    <div>{task.status}</div>
-                    <div>{task.createdAt}</div>
-                    <button onClick={() => handleRemove(task.id)}>Elimina Task</button >
-                </div>
+                <>
+                    <div >
+                        <h2>{task.title}</h2>
+                        <p>{task.description}</p>
+                        <div>{task.status}</div>
+                        <div>{task.createdAt}</div>
+                        <button onClick={() => setShow(true)}>Elimina Task</button >
+                    </div>
+
+                    <Modal
+                        show={show}
+                        onClose={() => setShow(false)}
+                        title={"Elimina la Task"}
+                        onConfirm={() => handleRemove(task.id)}
+                        content={"Vuoi davvero eliminare la Task?"}
+                    />
+                </>
             }
+
+
 
         </>
 
