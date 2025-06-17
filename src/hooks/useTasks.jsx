@@ -57,7 +57,30 @@ export default function useTasks() {
             throw error;
         }
     }
-    function updateTask() { }
+    async function updateTask(updatedTask) {
+        const { id, ...obj } = updatedTask;
+
+        try {
+            const response = await fetch(`${apiUrl}/tasks/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(obj)
+            });
+
+            const data = await response.json();
+
+            if (!data.success) {
+                throw new Error(data.message);
+            }
+
+            return data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 
     return { tasks, setTasks, addTask, removeTask, updateTask }
 }
