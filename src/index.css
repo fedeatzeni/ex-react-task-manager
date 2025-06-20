@@ -26,14 +26,26 @@ nav a.active {
     text-decoration: underline blue;
 }
 
+main {
+    max-width: 70%;
+    margin: 0 auto;
+}
+
+.tb {
+    padding-bottom: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
 /* task list  */
 .task-row {
     display: flex;
     gap: 20px;
+    padding: 10px 5px;
 }
 
 .task-row .name {
-    flex-basis: 20%;
+    flex-basis: 50%;
 }
 
 .task-row.red {

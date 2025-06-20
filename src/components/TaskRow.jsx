@@ -7,7 +7,7 @@ const Card = React.memo(({ task, color }) => {
         <Link to={`/task/${task.id}`} className={`task-row ${color}`} >
             <div className="name">{task.title}</div>
             <div>{task.status}</div>
-            <div>{task.createdAt}</div>
+            <div>{new Date(task.createdAt).toLocaleDateString()}</div>
         </Link>
     )
 });

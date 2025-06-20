@@ -1,9 +1,21 @@
-import { useContext, useMemo, useState } from "react"
+import { useCallback, useContext, useMemo, useState } from "react"
 import GlobalContext from "../contexts/GlobalContext"
 
 import NavBar from "../components/NavBar"
 import TaskRow from "../components/TaskRow";
 import useTasks from "../hooks/useTasks";
+import { Link } from "react-router-dom";
+
+// debounce
+function debounce(callback, delay) {
+    let timer;
+    return (value) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            callback(value);
+        }, delay);
+    };
+}
 
 export default function TaskList() {
 
@@ -15,51 +27,64 @@ export default function TaskList() {
     const [sortBy, setSortBy] = useState("createdAt")
     const [sortOrder, SetSortOrdere] = useState(1)
 
+    //search
+    const [searchQuery, setSearchQuery] = useState("")
+
     function handleSort(value) {
         if (sortBy === value) SetSortOrdere(sortOrder * -1)
         else setSortBy(value)
     }
     // console.log(sortBy, sortOrder);
 
-    const sort = useMemo(() => {
+    const filtredTasks = useMemo(() => {
+        let result = [...tasks];
 
-        if (sortBy === "title") {
-            tasks.sort((a, b) => {
-                return a.title.localeCompare(b.title) * sortOrder;
-            });
+        if (searchQuery !== "") {
+            result = result.filter(el =>
+                el.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                el.status.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                el.createdAt.includes(searchQuery)
+            );
         }
 
-        if (sortBy === "status") {
-            tasks.sort((a, b) => {
+        result.sort((a, b) => {
+            if (sortBy === "title") return a.title.localeCompare(b.title) * sortOrder;
+
+            else if (sortBy === "status") {
                 const statusOrder = ["To do", "Doing", "Done"];
                 const indexA = statusOrder.indexOf(a.status);
                 const indexB = statusOrder.indexOf(b.status);
                 return (indexA - indexB) * sortOrder;
-            });
-        }
+            }
 
-        if (sortBy === "createdAt") {
-            tasks.sort((a, b) => {
-                return (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) * sortOrder;
-            });
-        }
+            else if (sortBy === "createdAt") return (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) * sortOrder;
+        });
 
-    }, [tasks, sortBy, sortOrder])
+        return result;
+    }, [tasks, sortBy, sortOrder, searchQuery])
 
+    const debounceSearch = useCallback(debounce(setSearchQuery, 500), [])
 
     return (
         <>
             <NavBar />
-            <div className={`task-row`} >
-                <div className="name" onClick={() => handleSort("title")}>Titolo</div>
-                <div onClick={() => handleSort("status")}>Stato</div>
-                <div onClick={() => handleSort("createdAt")}>Data di creazione</div>
-            </div>
-            <div>
-                {tasks.map(task => (
-                    <TaskRow key={task.id} task={task} />
-                ))}
-            </div>
+            <main>
+                <h1>Lista Task</h1>
+
+                <input type="text" placeholder="Cerca..." onChange={e => debounceSearch(e.target.value)} />
+                <div className="tb">
+                    <div className={`task-row`} >
+                        <Link className="name" onClick={() => handleSort("title")}>Titolo</Link>
+                        <Link onClick={() => handleSort("status")}>Stato</Link>
+                        <Link onClick={() => handleSort("createdAt")}>Data di creazione</Link>
+                    </div>
+                    <div>
+                        {filtredTasks.map(task => (
+                            <TaskRow key={task.id} task={task} />
+                        ))}
+                    </div>
+                </div>
+            </main>
         </>
     )
 }

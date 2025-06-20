@@ -19,7 +19,7 @@ export default function TaskDetail() {
     const { id } = useParams();
 
     const task = useMemo(() => {
-        return tasks.find(el => el.id == id)
+        return tasks.find(el => el.id === parseInt(id))
     }, [tasks, id])
 
     let navigate = useNavigate();
@@ -58,35 +58,41 @@ export default function TaskDetail() {
 
     return (
         <>
-            <Link to={"/"}>Home</Link>
+            <nav>
+                <Link to={"/"}>Home</Link>
+            </nav>
 
-            {task &&
-                <>
-                    <div >
-                        <h2>{task.title}</h2>
-                        <p>{task.description}</p>
-                        <div>{task.status}</div>
-                        <div>{task.createdAt}</div>
-                        <button onClick={() => setShow(true)}>Elimina Task</button >
-                        <button onClick={() => setEditShow(true)}>Modifica Task</button >
-                    </div>
+            <main>
+                {!task && <h2>Task non trovata</h2>}
 
-                    <Modal
-                        show={show}
-                        onClose={() => setShow(false)}
-                        title={"Elimina la Task"}
-                        onConfirm={() => handleRemove(task.id)}
-                        content={"Vuoi davvero eliminare la Task?"}
-                    />
+                {task &&
+                    <>
+                        <div >
+                            <h2>{task.title}</h2>
+                            <p>{task.description}</p>
+                            <div>{task.status}</div>
+                            <div>{new Date(task.createdAt).toLocaleString()}</div>
+                            <button onClick={() => setShow(true)}>Elimina Task</button >
+                            <button onClick={() => setEditShow(true)}>Modifica Task</button >
+                        </div>
 
-                    <EditTaskModal
-                        show={editShow}
-                        onClose={() => setEditShow(false)}
-                        onSave={handleEdit}
-                        task={task}
-                    />
-                </>
-            }
+                        <Modal
+                            show={show}
+                            onClose={() => setShow(false)}
+                            title={"Elimina la Task"}
+                            onConfirm={() => handleRemove(task.id)}
+                            content={"Vuoi davvero eliminare la Task?"}
+                        />
+
+                        <EditTaskModal
+                            show={editShow}
+                            onClose={() => setEditShow(false)}
+                            onSave={handleEdit}
+                            task={task}
+                        />
+                    </>
+                }
+            </main>
         </>
 
     )

@@ -53,18 +53,26 @@ export default function AddTask() {
     return (
         <>
             <NavBar />
-            <form onSubmit={e => handleSubmit(e)}>
-                <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
-                <textarea ref={descriptionRef} />
-                <select name="" id="" ref={statusRef}>
-                    <option value="To do">To do</option>
-                    <option value="Doing">Doing</option>
-                    <option value="Done">Done</option>
-                </select>
-                <button>Submit</button>
-            </form>
 
-            {error && <div className="error">Il titolo non può essere vuoto e non può contenere caratteri speciali</div>}
+            <main>
+                <h1>Aggiungi Task</h1>
+
+                <form onSubmit={e => handleSubmit(e)}>
+                    <div>Titolo</div>
+                    <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
+                    <div>Descrizione</div>
+                    <textarea ref={descriptionRef} />
+                    <select name="" id="" ref={statusRef}>
+                        <option value="To do">To do</option>
+                        <option value="Doing">Doing</option>
+                        <option value="Done">Done</option>
+                    </select>
+                    <button>Submit</button>
+                </form>
+
+                {error && <div className="error">Il titolo non può essere vuoto e non può contenere caratteri speciali</div>}
+            </main>
+
         </>
     )
 }
